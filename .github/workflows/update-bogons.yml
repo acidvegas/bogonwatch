@@ -21,12 +21,14 @@ jobs:
       - name: Download latest bogon lists
         run: python update_bogons.py
       
-      - name: Check for changes
+      - name: Check for changes or new files
         id: check_changes
         run: |
-          git diff --quiet || echo "changes=true" >> $GITHUB_OUTPUT
+          if [ ! -f bogons_ipv4.txt ] || [ ! -f bogons_ipv6.txt ] || ! git diff --quiet; then
+            echo "changes=true" >> $GITHUB_OUTPUT
+          fi
       
-      - name: Commit and push if changed
+      - name: Commit and push if changed or new
         if: steps.check_changes.outputs.changes == 'true'
         run: |
           git config --local user.email "actions@github.com"
