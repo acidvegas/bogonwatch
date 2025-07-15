@@ -18,47 +18,19 @@ jobs:
         with:
           python-version: '3.x'
       
-      - name: List directory before download
-        run: ls -la
-      
       - name: Download latest bogon lists
         run: python update_bogons.py
       
-      - name: List directory after download
-        run: |
-          ls -la
-          if [ -f bogons_ipv4.txt ]; then
-            echo "Contents of bogons_ipv4.txt:"
-            head -n 5 bogons_ipv4.txt
-          else
-            echo "bogons_ipv4.txt does not exist!"
-          fi
-          if [ -f bogons_ipv6.txt ]; then
-            echo "Contents of bogons_ipv6.txt:"
-            head -n 5 bogons_ipv6.txt
-          else
-            echo "bogons_ipv6.txt does not exist!"
-          fi
-      
-      - name: Check for changes or new files
-        id: check_changes
-        run: |
-          if [ ! -f bogons_ipv4.txt ] || [ ! -f bogons_ipv6.txt ]; then
-            echo "Files missing - will create"
-            echo "changes=true" >> $GITHUB_OUTPUT
-          elif ! git diff --quiet; then
-            echo "Changes detected in existing files"
-            echo "changes=true" >> $GITHUB_OUTPUT
-          else
-            echo "No changes detected"
-          fi
-      
-      - name: Commit and push if changed or new
-        if: steps.check_changes.outputs.changes == 'true'
+      - name: Force add and commit
         run: |
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
           git add -f bogons_ipv4.txt bogons_ipv6.txt
           git status
-          git commit -m "Update bogon lists [skip ci]"
-          git push 
+          if git status --porcelain | grep -q '^?? \|^A  \|^M  '; then
+            echo "Changes detected, committing..."
+            git commit -m "Update bogon lists [skip ci]"
+            git push
+          else
+            echo "No changes to commit"
+          fi 
