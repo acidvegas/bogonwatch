@@ -1,4 +1,4 @@
-# last updated 1753016101 (Sun Jul 20 12:55:01 2025 GMT)
+# last updated 1753030501 (Sun Jul 20 16:55:01 2025 GMT)
 # Know your network!  Please rigorously test all filters!
 ::/10
 40::/11
@@ -35606,7 +35606,12 @@
 2001:df5:e388::/45
 2001:df5:e390::/44
 2001:df5:e3a0::/43
-2001:df5:e3c0::/42
+2001:df5:e3c1::/48
+2001:df5:e3c2::/47
+2001:df5:e3c4::/46
+2001:df5:e3c8::/45
+2001:df5:e3d0::/44
+2001:df5:e3e0::/43
 2001:df5:e400::/41
 2001:df5:e481::/48
 2001:df5:e482::/47
