@@ -1,4 +1,4 @@
-# last updated 1790182501 (Wed Sep 23 16:55:01 2026 GMT)
+# last updated 1790196901 (Wed Sep 23 20:55:01 2026 GMT)
 # Know your network!  Please rigorously test all filters!
 ::/10
 40::/11
